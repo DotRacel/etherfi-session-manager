@@ -2,6 +2,12 @@
   <img src="https://www.ether.fi/images/favicon/android-chrome-192x192.png" width="72" alt="ether.fi">
   <h1>ether.fi 会话管理脚本</h1>
   <p>一个 Tampermonkey 用户脚本，用来<b>查看并注销 ether.fi Cash 的登录会话</b>（登出其它设备）。</p>
+  <p>
+    <a href="https://raw.githubusercontent.com/DotRacel/etherfi-session-manager/main/etherfi-session-manager.user.js">
+      <img src="https://img.shields.io/badge/%E2%AC%87%20%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85-Tampermonkey-00857A?style=for-the-badge&logo=tampermonkey&logoColor=white" alt="一键安装">
+    </a>
+  </p>
+  <sub>需先安装 <a href="https://www.tampermonkey.net/">Tampermonkey</a>，点击按钮后确认安装即可。</sub>
 </div>
 
 ---
