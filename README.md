@@ -1,83 +1,59 @@
 <div align="center">
   <img src="https://www.ether.fi/images/favicon/android-chrome-192x192.png" width="72" alt="ether.fi">
-  <h1>ether.fi Session Manager</h1>
-  <p>A Tampermonkey userscript to <b>list and revoke your ether.fi Cash login sessions</b> — i.e. log out other devices.</p>
+  <h1>ether.fi 会话管理脚本</h1>
+  <p>一个 Tampermonkey 用户脚本，用来<b>查看并注销 ether.fi Cash 的登录会话</b>（登出其它设备）。</p>
 </div>
 
 ---
 
-## Why
+## 界面预览
 
-ether.fi Cash keeps you logged in with a server-side cookie session. Changing your
-password or adding 2FA does **not** revoke sessions that already exist on other
-devices, and the web UI has no "log out of all devices" button. If you signed in
-somewhere and forgot to log out, there's no built-in way to kill that session.
+<div align="center">
+  <img src="./assets/screenshot.png" width="760" alt="ether.fi 会话管理面板">
+</div>
 
-This script surfaces ether.fi's own **internal** session-management endpoints
-(which the app ships but never exposes in the UI) and gives you a small panel to
-select and revoke sessions.
+## 为什么需要它
 
-| Endpoint | Method | Purpose |
+ether.fi Cash 用服务端 cookie 会话保持登录。**改密码或加 2FA 并不会让其它设备上已存在的会话失效**，而且网页界面里没有“登出所有设备”的按钮。如果你在某台设备上登录后忘了退出，官方没有任何内置办法能踢掉那个会话。
+
+本脚本把 ether.fi **自带、却没在界面暴露**的内部会话管理接口调出来，用一个小面板让你选中并注销会话。
+
+| 接口 | 方法 | 作用 |
 | --- | --- | --- |
-| `/app/cash/api/v2/sessions` | `GET` | List your active sessions |
-| `/app/cash/api/v2/sessions/{id}` | `DELETE` | Revoke a specific session |
+| `/app/cash/api/v2/sessions` | `GET` | 列出你所有活跃会话 |
+| `/app/cash/api/v2/sessions/{id}` | `DELETE` | 注销指定的某个会话 |
 
-It only ever talks to `www.ether.fi` using **your own browser's login cookie** —
-no credentials are collected, stored, or sent anywhere else.
+脚本只会用**你自己浏览器里的登录 cookie** 与 `www.ether.fi` 通信 —— 不采集、不保存、也不向任何第三方发送任何凭据。
 
-## Install
+> 说明：ether.fi Cash 的会话默认有效期约 **90 天**（见上图“过期于”），在你手动注销或自然过期之前会一直有效。这也是忘记登出的会话能长期存在的原因。
 
-1. Install [Tampermonkey](https://www.tampermonkey.net/) (or a compatible manager
-   such as Violentmonkey).
-2. Click to install:
-   **[➡ Install `etherfi-session-manager.user.js`](https://raw.githubusercontent.com/__GH_OWNER__/__GH_REPO__/main/etherfi-session-manager.user.js)**
-   Tampermonkey will open its install page — confirm.
-3. Auto-updates are wired via `@updateURL` / `@downloadURL`, so you'll get new
-   versions automatically.
+## 安装
 
-## Usage
+1. 安装 [Tampermonkey](https://www.tampermonkey.net/)（或 Violentmonkey 等兼容的脚本管理器）。
+2. 点击安装：
+   **[➡ 安装 `etherfi-session-manager.user.js`](https://raw.githubusercontent.com/__GH_OWNER__/__GH_REPO__/main/etherfi-session-manager.user.js)**
+   Tampermonkey 会打开安装页，确认即可。
+3. 脚本头部已配置 `@updateURL` / `@downloadURL`，之后会**自动更新**到新版本。
 
-1. Open **https://www.ether.fi** and **log in to Cash** (the script uses your
-   existing login cookie).
-2. Click the **🔒 Sessions** button in the bottom-right corner.
-3. The panel lists every active session. Select the ones you want to kill (or use
-   **Select all**), then click **Revoke selected**. Each row also has its own
-   **Revoke** button.
+## 使用
 
-### Notes
+1. 打开 **https://www.ether.fi** 并**登录 Cash**（脚本依赖你已登录的 cookie）。
+2. 点击右下角的 **🔒 Sessions** 按钮。
+3. 面板会列出全部活跃会话。勾选要踢掉的会话（或点 **全选**），再点 **注销选中**；每一行也有单独的 **注销** 按钮。
 
-- **Select all** deliberately excludes any session detected as your *current
-  device*, so you don't accidentally log yourself out. You can still tick it
-  manually to fully reset (you'll be asked to confirm, then need to log in again).
-- Response field names weren't publicly documented, so the script parses
-  defensively — it auto-detects the session list and the id field, and shows the
-  raw JSON of each session. If a row can't find an id, open its **原始 JSON /
-  raw JSON** and file an issue with the shape so it can be mapped exactly.
+### 注意事项
 
-## 中文说明
+- **全选** 会故意**排除**被识别为“当前设备”的会话（面板中橙色高亮、标有“当前设备”），避免你把自己也登出。若想彻底重置，可手动勾上它（会弹出确认，注销后需要重新登录）。
+- 接口返回的字段名并无公开文档，脚本做了**兜底解析**：自动识别会话列表与 `id` 字段，并为每条会话提供 **“原始 JSON”** 展开。若某行找不到 `id`，可展开其原始 JSON 并在 Issue 中反馈其结构，以便精确适配。
 
-ether.fi Cash 的登录会话是服务端 cookie 会话，**改密码/加 2FA 都不会让其它设备的会话失效**，界面上也没有“登出所有设备”。本脚本调用 App 自带、但未在界面暴露的内部接口 `GET /v2/sessions` 与 `DELETE /v2/sessions/{id}`，提供一个小面板来查看、选中/全选并注销会话。
+## 工作原理
 
-- 安装 Tampermonkey → 点上面的安装链接确认。
-- 登录 https://www.ether.fi 后，点右下角 **🔒 Sessions**。
-- 勾选要踢掉的会话（或“全选”，默认不含当前设备），点“注销选中”。
-- 全脚本只与 `www.ether.fi` 通信、只用你自己的登录 cookie，不采集任何凭据。
+脚本完全复刻了 ether.fi 前端发起已认证请求的方式：相同的基路径（`/app/cash/api`）、`credentials: 'include'`（从而带上 httpOnly 会话 cookie），以及相同的 `X-Active-User` 请求头（取自 `localStorage.active_user`）。实现为单个、零依赖的 `.user.js` 文件，界面用 Shadow DOM 隔离样式，可直接阅读源码。
 
-## How it works
+## 免责声明
 
-The script mirrors exactly what the ether.fi frontend does for authenticated
-requests: same base path (`/app/cash/api`), `credentials: 'include'` (so the
-httpOnly session cookie is sent), and the same `X-Active-User` header
-(`localStorage.active_user`). See the source — it's a single, dependency-free
-`.user.js` file with a Shadow-DOM UI.
+本项目与 ether.fi 无任何隶属、背书或支持关系。这是一个独立的小工具，代表你、针对**你自己的**账户会话，调用该网站自身的接口。请自行承担使用风险。内部接口可能随时更改或下线，恕不另行通知。
 
-## Disclaimer
-
-Not affiliated with, endorsed by, or supported by ether.fi. This is an
-independent utility that calls the site's own endpoints on your behalf, for
-managing **your own** account's sessions. Use at your own risk. Internal
-endpoints can change or be removed at any time without notice.
-
-## License
+## 许可证
 
 [MIT](./LICENSE) © __AUTHOR__
