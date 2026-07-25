@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ether.fi Session Manager (Logout Devices)
 // @namespace    https://www.ether.fi/
-// @version      1.0.1
+// @version      1.0.2
 // @description  列出 ether.fi Cash 的所有登录会话，支持选中/全选并注销（登出其它设备）。使用站点自身的内部接口 GET /v2/sessions 与 DELETE /v2/sessions/{id}。
 // @author       DotRacel
 // @icon         https://www.ether.fi/images/favicon/android-chrome-192x192.png
@@ -198,7 +198,7 @@
 
     const launcher = document.createElement('button');
     launcher.className = 'launcher';
-    launcher.textContent = '🔒 Sessions';
+    launcher.textContent = '🔒 会话管理';
     launcher.onclick = openPanel;
     root.appendChild(launcher);
 
