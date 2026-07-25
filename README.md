@@ -31,7 +31,7 @@ ether.fi Cash 用服务端 cookie 会话保持登录。**改密码或加 2FA 并
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/)（或 Violentmonkey 等兼容的脚本管理器）。
 2. 点击安装：
-   **[➡ 安装 `etherfi-session-manager.user.js`](https://raw.githubusercontent.com/__GH_OWNER__/__GH_REPO__/main/etherfi-session-manager.user.js)**
+   **[➡ 安装 `etherfi-session-manager.user.js`](https://raw.githubusercontent.com/DotRacel/etherfi-session-manager/main/etherfi-session-manager.user.js)**
    Tampermonkey 会打开安装页，确认即可。
 3. 脚本头部已配置 `@updateURL` / `@downloadURL`，之后会**自动更新**到新版本。
 
@@ -56,4 +56,4 @@ ether.fi Cash 用服务端 cookie 会话保持登录。**改密码或加 2FA 并
 
 ## 许可证
 
-[MIT](./LICENSE) © __AUTHOR__
+[MIT](./LICENSE) © DotRacel

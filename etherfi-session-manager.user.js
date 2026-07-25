@@ -3,13 +3,13 @@
 // @namespace    https://www.ether.fi/
 // @version      1.0.1
 // @description  列出 ether.fi Cash 的所有登录会话，支持选中/全选并注销（登出其它设备）。使用站点自身的内部接口 GET /v2/sessions 与 DELETE /v2/sessions/{id}。
-// @author       you
+// @author       DotRacel
 // @icon         https://www.ether.fi/images/favicon/android-chrome-192x192.png
 // @icon64       https://www.ether.fi/images/favicon/android-chrome-512x512.png
-// @homepageURL  https://github.com/__GH_OWNER__/__GH_REPO__
-// @supportURL   https://github.com/__GH_OWNER__/__GH_REPO__/issues
-// @updateURL    https://raw.githubusercontent.com/__GH_OWNER__/__GH_REPO__/main/etherfi-session-manager.user.js
-// @downloadURL  https://raw.githubusercontent.com/__GH_OWNER__/__GH_REPO__/main/etherfi-session-manager.user.js
+// @homepageURL  https://github.com/DotRacel/etherfi-session-manager
+// @supportURL   https://github.com/DotRacel/etherfi-session-manager/issues
+// @updateURL    https://raw.githubusercontent.com/DotRacel/etherfi-session-manager/main/etherfi-session-manager.user.js
+// @downloadURL  https://raw.githubusercontent.com/DotRacel/etherfi-session-manager/main/etherfi-session-manager.user.js
 // @match        https://www.ether.fi/*
 // @run-at       document-idle
 // @grant        none
