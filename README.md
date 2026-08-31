@@ -36,8 +36,24 @@ ether.fi 有一个臭名昭著的问题，网站/APP 做的很好，但是就是
 ## 使用
 
 1. 打开 **https://www.ether.fi** 并**登录 Cash**（脚本依赖你已登录的 cookie）。
-2. 点击右下角的 **🔒 会话管理** 按钮。
+2. 点击右下角的 **会话管理** 按钮。
 3. 面板会列出全部活跃会话。勾选要踢掉的会话（或点 **全选**），再点 **注销选中**；每一行也有单独的 **注销** 按钮。
+4. 面板可拖动标题栏移动，按 <kbd>Esc</kbd> 关闭；点击卡片里的会话 ID 可复制完整 ID。
+
+## IP 归属地
+
+接口返回的 `area` 字段基本恒为 `null`，所以只有一个裸 IP：
+
+```json
+{ "ipAddress": "74.52.12.174", "deviceName": "Chrome (Mac)", "deviceType": "desktop", "area": null }
+```
+
+脚本会在 `area` 缺失时，用公共 IP 库把归属地补上（上图「位置」一行）。实现细节：
+
+- 依次尝试 [ipwho.is](https://ipwho.is/) → [geojs.io](https://get.geojs.io/)，前者失败才走后者；两家都免密钥、支持 HTTPS 与 CORS。
+- 请求一律带 `credentials: 'omit'`，**不会**把 ether.fi 的 cookie 带给第三方；发出去的只有那个 IP。
+- 结果按 IP 缓存 7 天（`localStorage`），相同 IP 不重复查询。
+- 归属地是粗略推断（通常到城市/地区级），不是精确定位；保留网段、内网 IP 会查询失败，可点击该行重试。
 
 ## 免责声明
 
